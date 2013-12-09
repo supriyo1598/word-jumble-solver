@@ -2,7 +2,7 @@ require 'Set'
 
 def solve_jumble(word)
   permutations = permutations(word)
-  dictionary = load_dictionary
+  dictionary = load_dictionary('dictionary.txt')
   words = filter_english_words(permutations, dictionary)
   print_words(words)
 end
@@ -11,22 +11,21 @@ def permutations(word)
   length = word.length
   return [word] if length <= 1
 
-  subwords = []
+  subwords = Set.new
   length.times do |i|
     char = word[i]
     rest_of_chars = word[0...i] + word[i + 1...length]
     new_perms = permutations(rest_of_chars)
   
     new_perms.each do |perm| 
-      subwords += [perm, char + perm]
+      subwords.merge([perm, char + perm]) 
     end
   end
-  subwords.uniq
+  subwords
 end
 
-def load_dictionary
-  dictionary = Set.new(File.readlines('dictionary.txt'))
-  dictionary.map! { |word| word.chomp }
+def load_dictionary(dictionary)
+  dictionary = Set.new(File.readlines(dictionary).map(&:chomp))
 end
 
 def filter_english_words(permutations, dictionary)
