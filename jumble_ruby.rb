@@ -3,7 +3,8 @@ require 'Set'
 def solve_jumble(word)
   permutations = permutations(word)
   dictionary = load_dictionary
-  filter_english_words(permutations, dictionary)
+  words = filter_english_words(permutations, dictionary)
+  print_words(words)
 end
 
 def permutations(word)
@@ -24,8 +25,8 @@ def permutations(word)
 end
 
 def load_dictionary
-  @dictionary = Set.new(File.readlines('dictionary.txt'))
-  @dictionary.map! { |word| word.chomp }
+  dictionary = Set.new(File.readlines('dictionary.txt'))
+  dictionary.map! { |word| word.chomp }
 end
 
 def filter_english_words(permutations, dictionary)
@@ -36,5 +37,9 @@ def filter_english_words(permutations, dictionary)
   english_words
 end
 
-puts solve_jumble(ARGV[0])
+def print_words(words)
+  words.each { |word| puts word }
+end
+
+solve_jumble(ARGV[0])
 
