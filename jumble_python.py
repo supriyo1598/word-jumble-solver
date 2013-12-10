@@ -12,7 +12,7 @@ def permutations(word):
         return [word] 
     
     subwords = set()
-    for i in (0, length-1):
+    for i in range(length):
         char = word[i]
         rest_of_chars = word[0:i] + word[(i + 1):length]
         new_perms = permutations(rest_of_chars)
